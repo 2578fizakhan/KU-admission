@@ -1,1 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>University of Karachi – Admission Form</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+<style>
+body{
+    background:#eef1f5;
+    font-family: Arial, sans-serif;
+}
+
+.form-wrapper{
+    max-width:850px;
+    margin:30px auto;
+    background:#fff;
+    padding:25px;
+    border:2px solid #000;
+}
+
+.header{
+    text-align:center;
+    border-bottom:2px solid #000;
+    padding-bottom:10px;
+}
+
+.header h1{font-size:24px;}
+
+.form-no{
+    text-align:right;
+    font-weight:bold;
+}
+
+h2{
+    text-align:center;
+    text-decoration:underline;
+    margin-top:20px;
+}
+
+label{
+    font-weight:bold;
+    display:block;
+    margin-top:10px;
+}
+
+input, select, textarea{
+    width:100%;
+    padding:7px;
+    border:1px solid #000;
+    margin-top:4px;
+}
+
+.row{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+}
+.row div{flex:1;}
+
+.photo-box{
+    width:140px;
+    height:170px;
+    border:2px solid #000;
+    margin:10px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+}
+
+.signature-area{
+    border:2px solid #000;
+    width:100%;
+    height:120px;
+}
+
+.signature-section{
+    margin-top:25px;
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.signature-box{
+    flex:1;
+    text-align:center;
+}
+
+button{
+    padding:8px 15px;
+    cursor:pointer;
+    background:#000;
+    color:#fff;
+    border:none;
+}
+
+.pdf-btn{
+    text-align:center;
+    margin:25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="form-wrapper" id="admissionForm">
+
+<div class="form-no">Form No: <span id="formNumber"></span></div>
+
+<div class="header">
+    <h1>UNIVERSITY OF KARACHI</h1>
+</div>
+
+<div class="photo-box">
+    Student Photo<br>
+    <input type="file" accept="image/*">
+</div>
+
+<h2>PERSONAL INFORMATION</h2>
+
+<label>Student Name</label>
+<input type="text">
+
+<label>Father / Guardian Name</label>
+<input type="text">
+
+<div class="row">
+<div>
+<label>Date of Birth</label>
+<input type="date">
+</div>
+<div>
+<label>Gender</label>
+<select>
+<option>Male</option>
+<option>Female</option>
+</select>
+</div>
+</div>
+
+<label>CNIC / B-Form</label>
+<input type="text">
+
+<label>Contact Number</label>
+<input type="tel">
+
+<label>Permanent Address</label>
+<textarea rows="3"></textarea>
+
+<h2>EDUCATIONAL INFORMATION</h2>
+
+<label>Matric School Name</label>
+<input type="text">
+
+<div class="row">
+<div>
+<label>Board</label>
+<input type="text">
+</div>
+<div>
+<label>Passing Year</label>
+<input type="number">
+</div>
+</div>
+
+<label>Marks / Grade</label>
+<input type="text">
+
+<h2>SIGNATURES</h2>
+
+<div class="signature-section">
+
+<div class="signature-box">
+<p><b>Student Digital Signature</b></p>
+<canvas id="signature-pad" class="signature-area"></canvas>
+<br>
+<button onclick="clearSignature()">Clear</button>
+</div>
+
+<div class="signature-box">
+<p><b>Principal Signature</b></p>
+<div class="signature-area"></div>
+<p><b>Fiza Khan</b></p>
+</div>
+
+</div>
+
+</div>
+
+<div class="pdf-btn">
+<button onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<script>
+document.getElementById("formNumber").innerText =
+"KU-2026-" + Math.floor(10000 + Math.random() * 90000);
+
+const canvas = document.getElementById("signature-pad");
+canvas.width = canvas.offsetWidth;
+canvas.height = 120;
+
+const signaturePad = new SignaturePad(canvas);
+
+function clearSignature(){
+    signaturePad.clear();
+}
+
+function downloadPDF(){
+    html2pdf().from(document.getElementById("admissionForm")).set({
+        filename:'KU_Admission_Form.pdf',
+        margin:0.5,
+        html2canvas:{scale:2},
+        jsPDF:{format:'a4',orientation:'portrait'}
+    }).save();
+}
+</script>
+
+</body>
+</html>
 
